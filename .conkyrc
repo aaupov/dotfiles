@@ -1,0 +1,15 @@
+out_to_x no
+out_to_console yes
+update_interval 5.0
+total_run_times 0
+use_spacer none
+nvidia_display :0
+display :0
+TEXT
+CPU: ${platform coretemp.0 temp 2}, ${cpu}% | \
+GPU: ${nvidia temp} | \
+${if_existing /sys/class/power_supply/BAT1}BAT: ${battery_percent BAT1}% ${if_match "${battery_short BAT1}" != "F"}${battery_time BAT1} ${endif}| ${endif}\
+${if_existing /proc/net/route wlp7s0}${wireless_essid wlp7s0}: ${wireless_link_qual_perc wlp7s0}% | ${endif}\
+MSK: ${weather http://weather.noaa.gov/pub/data/observations/metar/stations/ UUDD temperature 1200} \
+${if_mpd_playing}| ${mpd_smart} ${endif}\
+${texeci 300 ~/.config/newgmail.py}
